@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.xxy.common.security.service.RbacUserDetailsServiceImpl,\
+  com.xxy.common.security.component.ResourceAuthExceptionEntryPoint,\
+  com.xxy.common.security.component.RbacAccessDeniedHandler
