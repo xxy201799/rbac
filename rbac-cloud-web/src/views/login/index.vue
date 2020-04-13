@@ -41,7 +41,7 @@
                       placeholder="验证码"
                       v-model="user.code">
                       <template slot="suffix">
-                        <img class="code-img" src="https://marketplace-res-cbc-cn.obs.myhwclouds.com/app/logo/20181009/98dea972-8855-4348-9ef4-92bafb247ea4/1810091217084675.jpg" alt="">
+                        <img class="code-img" src="http://129.211.159.145:9999/code?randomStr=1234" alt="">
                       </template>
                     </el-input>
                   </el-form-item>
@@ -78,6 +78,8 @@
 <script>
 const backgroundImage =
   'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png'
+import sha256 from 'crypto-js/sha256'
+import Base64 from 'crypto-js/enc-base64'
 
 export default {
   name: 'UserLogin',
@@ -89,7 +91,8 @@ export default {
         username: '',
         password: '',
         code: ''
-      }
+      },
+      img: ''
     }
   },
 
@@ -99,6 +102,7 @@ export default {
     submitBtn() {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          this.user.password = Base64.stringify(sha256(this.user.password))
           this.$store.dispatch('user/login', this.user).then(() => {
             this.$router.push({ path: '/' })
             this.$message({
@@ -235,9 +239,14 @@ export default {
       }
     }
   }
+ /deep/ .el-input__suffix {
+    right: 1px!important;
+  }
   .code-img {
     height: 38px;
     margin-top: 1px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
   }
 
 </style>

@@ -36,7 +36,27 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    proxy: {
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      '/dev-api': {
+        target: `http://129.211.159.145:9999`,
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/dev-api': ''
+        }
+      },
+      '/prod-api': {
+        target: `http://129.211.159.145:9999`,
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/prod-api': ''
+        }
+      }
+    },
+    after: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
