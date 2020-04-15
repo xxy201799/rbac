@@ -13,7 +13,7 @@ public interface SecurityConstants {
     /**
      * 项目的license
      */
-    String PROJECT_LICENSE = "made by pig";
+    String PROJECT_LICENSE = "made by rbac";
 
     /**
      * 内部
