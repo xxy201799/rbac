@@ -1,18 +1,20 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function login(params) {
   return request({
     url: '/auth/oauth/token',
-    method: 'post',
-    data
+    method: 'get',
+    headers: {
+      Authorization: 'Basic cGlnOnBpZw=='
+    },
+    params
   })
 }
 
 export function getInfo(token) {
   return request({
-    url: '/mock/user/info',
-    method: 'get',
-    params: { token }
+    url: '/code?randomStr=1234',
+    method: 'get'
   })
 }
 

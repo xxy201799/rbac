@@ -41,7 +41,7 @@
                       placeholder="验证码"
                       v-model="user.code">
                       <template slot="suffix">
-                        <img class="code-img" src="http://129.211.159.145:9999/code?randomStr=1234" alt="">
+                        <img class="code-img" @click="changeRandomStr" :src="'http://129.211.159.145:9999/code?randomStr=' + user.randomStr" alt="">
                       </template>
                     </el-input>
                   </el-form-item>
@@ -78,8 +78,7 @@
 <script>
 const backgroundImage =
   'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png'
-import sha256 from 'crypto-js/sha256'
-import Base64 from 'crypto-js/enc-base64'
+const CryptoJS = require('crypto-js')
 
 export default {
   name: 'UserLogin',
@@ -88,9 +87,10 @@ export default {
     return {
       backgroundImage: backgroundImage,
       user: {
-        username: '',
-        password: '',
-        code: ''
+        username: 'admin',
+        password: '123456:no_check',
+        code: '',
+        randomStr: Math.floor(Math.random() * 1000)
       },
       img: ''
     }
@@ -102,7 +102,7 @@ export default {
     submitBtn() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.user.password = Base64.stringify(sha256(this.user.password))
+          // this.user.password = CryptoJS.AES.encrypt(this.user.password, 'thanks,rbaccloud').toString()
           this.$store.dispatch('user/login', this.user).then(() => {
             this.$router.push({ path: '/' })
             this.$message({
@@ -113,6 +113,9 @@ export default {
           })
         }
       })
+    },
+    changeRandomStr() {
+      this.user.randomStr = Math.floor(Math.random() * 1000)
     }
   }
 }
