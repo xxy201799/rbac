@@ -9,7 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.xxy</groupId>
     <artifactId>rbac-cloud-upms-biz</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>rbac-cloud-upms-biz</name>
 
     <dependencies>
         <!--upms api、model 模块-->
@@ -69,6 +72,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

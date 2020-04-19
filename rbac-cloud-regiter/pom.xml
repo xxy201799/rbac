@@ -10,11 +10,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.xxy</groupId>
     <artifactId>rbac-cloud-regiter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>rbac-cloud-register</name>
     <description>nacos 注册配置中心</description>
+
     <dependencies>
         <dependency>
             <groupId>com.pig4cloud.nacos</groupId>
@@ -58,6 +61,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
         <resources>
