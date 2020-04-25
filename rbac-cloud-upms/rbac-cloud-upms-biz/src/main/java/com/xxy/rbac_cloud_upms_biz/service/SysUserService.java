@@ -72,4 +72,11 @@ public interface SysUserService extends IService<SysUser> {
      */
     Boolean saveUser(UserDTO userDTO);
 
+    /**
+     * 查询上级部门的用户信息
+     * @param username
+     * @return
+     */
+    public List<SysUser> listAncestorUsersByUsername(String username);
+
 }

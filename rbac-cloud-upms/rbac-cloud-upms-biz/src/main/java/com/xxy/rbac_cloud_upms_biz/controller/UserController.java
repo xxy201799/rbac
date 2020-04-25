@@ -2,16 +2,19 @@ package com.xxy.rbac_cloud_upms_biz.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xxy.common.core.util.R;
 import com.xxy.common.security.annotation.Inner;
 import com.xxy.common.security.utils.SecurityUtils;
+import com.xxy.rbac.admin.api.dto.UserDTO;
 import com.xxy.rbac.admin.api.entity.SysUser;
+import com.xxy.rbac_cloud_common.log.log.annotation.SysLog;
 import com.xxy.rbac_cloud_upms_biz.service.SysUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
@@ -45,13 +48,14 @@ public class UserController {
     }
 
     /**
+     * 通过ID查询用户信息
      *
-     * @param id
-     * @return
+     * @param id ID
+     * @return 用户信息
      */
     @GetMapping("/{id}")
     public R user(@PathVariable Integer id){
-        return R.ok(userService);
+        return R.ok(userService.getUserVoById(id));
     }
 
     /**
@@ -65,6 +69,79 @@ public class UserController {
         SysUser condition = new SysUser();
         condition.setUsername(username);
         return R.ok(userService.getOne(new QueryWrapper<>(condition)));
+    }
+
+    /**
+     * 删除用户信息
+     *
+     * @param id ID
+     * @return R
+     */
+    @SysLog("删除用户信息")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@pms.hasPermission('sys_user_del')")
+    public R userDel(@PathVariable Integer id) {
+        SysUser sysUser = userService.getById(id);
+        return R.ok(userService.removeUserById(sysUser));
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param userDto 用户信息
+     * @return success/false
+     */
+    @SysLog("添加用户")
+    @PostMapping
+    @PreAuthorize("@pms.hasPermission('sys_user_add')")
+    public R user(@RequestBody UserDTO userDto) {
+        return R.ok(userService.saveUser(userDto));
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDto 用户信息
+     * @return R
+     */
+    @SysLog("更新用户信息")
+    @PutMapping
+    @PreAuthorize("@pms.hasPermission('sys_user_edit')")
+    public R updateUser(@Valid @RequestBody UserDTO userDto) {
+        return R.ok(userService.updateUser(userDto));
+    }
+
+    /**
+     * 分页查询用户
+     *
+     * @param page    参数集
+     * @param userDTO 查询参数列表
+     * @return 用户集合
+     */
+    @GetMapping("/page")
+    public R getUserPage(Page page, UserDTO userDTO) {
+        return R.ok(userService.getUserWithRolePage(page, userDTO));
+    }
+
+    /**
+     * 修改个人信息
+     *
+     * @param userDto userDto
+     * @return success/false
+     */
+    @SysLog("修改个人信息")
+    @PutMapping("/edit")
+    public R updateUserInfo(@Valid @RequestBody UserDTO userDto) {
+        return userService.updateUserInfo(userDto);
+    }
+
+    /**
+     * @param username 用户名称
+     * @return 上级部门用户列表
+     */
+    @GetMapping("/ancestor/{username}")
+    public R listAncestorUsers(@PathVariable String username) {
+        return R.ok(userService.listAncestorUsersByUsername(username));
     }
 
 }

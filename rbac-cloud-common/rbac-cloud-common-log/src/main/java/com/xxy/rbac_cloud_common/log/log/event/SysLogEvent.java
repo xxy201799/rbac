@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.log.event;
+package com.xxy.rbac_cloud_common.log.log.event;
 
-import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.xxy.rbac.admin.api.entity.SysLog;
 import org.springframework.context.ApplicationEvent;
 
 /**

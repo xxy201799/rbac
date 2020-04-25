@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.log.event;
+package com.xxy.rbac_cloud_common.log.log.event;
 
-import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.xxy.common.core.constants.SecurityConstants;
+import com.xxy.rbac.admin.api.entity.SysLog;
+import com.xxy.rbac.admin.api.feign.RemoteLogService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

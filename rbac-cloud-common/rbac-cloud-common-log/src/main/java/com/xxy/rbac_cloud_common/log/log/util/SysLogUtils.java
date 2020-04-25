@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.log.util;
+package com.xxy.rbac_cloud_common.log.log.util;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
-import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.xxy.common.core.constants.CommonConstants;
+import com.xxy.rbac.admin.api.entity.SysLog;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

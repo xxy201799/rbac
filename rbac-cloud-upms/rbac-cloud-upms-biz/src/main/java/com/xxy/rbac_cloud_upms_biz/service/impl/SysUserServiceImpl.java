@@ -68,7 +68,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public IPage getUserWithRolePage(Page page, UserDTO userDTO) {
-        return null;
+        return baseMapper.getUserVosPage(page, userDTO);
     }
 
     @Override
@@ -98,6 +98,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean saveUser(UserDTO userDTO) {
+        return null;
+    }
+
+    @Override
+    public List<SysUser> listAncestorUsersByUsername(String username) {
         return null;
     }
 }
