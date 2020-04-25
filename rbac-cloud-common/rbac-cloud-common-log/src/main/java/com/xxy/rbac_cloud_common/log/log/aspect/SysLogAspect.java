@@ -29,7 +29,7 @@ import org.aspectj.lang.annotation.Aspect;
 /**
  * 操作日志使用spring event异步入库
  *
- * @author L.cm
+ * @author xxy
  */
 @Aspect
 @Slf4j
