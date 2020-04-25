@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package com.xxy.rbac_cloud_common.log.log.annotation;
+package com.xxy.rbac_cloud_common.log.event;
 
-import java.lang.annotation.*;
+import com.xxy.rbac.admin.api.entity.SysLog;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * 操作日志注解
+ * @author xxy
+ * 系统日志事件
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface SysLog {
+public class SysLogEvent extends ApplicationEvent {
 
-	/**
-	 * 描述
-	 *
-	 * @return {String}
-	 */
-	String value();
+	public SysLogEvent(SysLog source) {
+		super(source);
+	}
 }

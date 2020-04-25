@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xxy.rbac_cloud_common.log.log.event;
+package com.xxy.rbac_cloud_common.log.event;
 
 import com.xxy.common.core.constants.SecurityConstants;
 import com.xxy.rbac.admin.api.entity.SysLog;
@@ -27,7 +27,7 @@ import org.springframework.scheduling.annotation.Async;
 
 
 /**
- * @author lengleng
+ * @author xxy
  * 异步监听日志事件
  */
 @Slf4j

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xxy.rbac_cloud_common.log.log.util;
+package com.xxy.rbac_cloud_common.log.util;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
@@ -34,7 +34,7 @@ import java.util.Objects;
 /**
  * 系统日志工具类
  *
- * @author L.cm
+ * @author xxy
  */
 @UtilityClass
 public class SysLogUtils {

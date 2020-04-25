@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.xxy.rbac_cloud_common.log.log.aspect;
+package com.xxy.rbac_cloud_common.log.aspect;
 
 import com.xxy.common.core.util.SpringContextHolder;
-import com.xxy.rbac_cloud_common.log.log.annotation.SysLog;
-import com.xxy.rbac_cloud_common.log.log.event.SysLogEvent;
-import com.xxy.rbac_cloud_common.log.log.util.SysLogUtils;
+import com.xxy.rbac_cloud_common.log.annotation.SysLog;
+import com.xxy.rbac_cloud_common.log.event.SysLogEvent;
+import com.xxy.rbac_cloud_common.log.util.SysLogUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

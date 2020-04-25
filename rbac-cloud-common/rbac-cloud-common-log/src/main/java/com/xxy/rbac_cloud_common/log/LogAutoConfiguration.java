@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.xxy.rbac_cloud_common.log.log;
+package com.xxy.rbac_cloud_common.log;
 
 import com.xxy.rbac.admin.api.feign.RemoteLogService;
-import com.xxy.rbac_cloud_common.log.log.aspect.SysLogAspect;
-import com.xxy.rbac_cloud_common.log.log.event.SysLogListener;
+import com.xxy.rbac_cloud_common.log.aspect.SysLogAspect;
+import com.xxy.rbac_cloud_common.log.event.SysLogListener;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author xxy
  * 日志自动配置
  */
 @EnableAsync

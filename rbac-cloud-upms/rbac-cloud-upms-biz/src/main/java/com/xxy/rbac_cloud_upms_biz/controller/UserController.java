@@ -8,7 +8,7 @@ import com.xxy.common.security.annotation.Inner;
 import com.xxy.common.security.utils.SecurityUtils;
 import com.xxy.rbac.admin.api.dto.UserDTO;
 import com.xxy.rbac.admin.api.entity.SysUser;
-import com.xxy.rbac_cloud_common.log.log.annotation.SysLog;
+import com.xxy.rbac_cloud_common.log.annotation.SysLog;
 import com.xxy.rbac_cloud_upms_biz.service.SysUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

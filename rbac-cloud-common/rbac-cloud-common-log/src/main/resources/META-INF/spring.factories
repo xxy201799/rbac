@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.xxy.rbac_cloud_common.log.LogAutoConfiguration
+org.springframework.context.ApplicationContextInitializer=\
+    com.xxy.rbac_cloud_common.log.init.ApplicationLoggerInitializer
