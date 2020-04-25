@@ -15,6 +15,7 @@
         <module>../rbac-cloud-codegen</module>
         <module>../rbac-cloud-monitor</module>
         <module>../rbac-cloud-regiter</module>
+        <module>../rbac-cloud-service-platform</module>
     </modules>
 
     <properties>
