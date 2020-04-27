@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, xxy All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -12,7 +12,7 @@
  * Neither the name of the pig4cloud.com developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
+ * Author: xxy (wangiegie@gmail.com)
  */
 
 package com.xxy.common.security.component;
@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * @author xxy
- * @date 2019-11-09
+ * @date 2020-11-09
  * <p>
  * 放行接口配置
  */

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
  * 菜单权限表
  * </p>
  *
- * @author lengleng
- * @since 2019/2/1
+ * @author xxy
+ * @since 2020/4/28
  */
 @Data
 public class MenuVO implements Serializable {

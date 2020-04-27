@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author xxy
+ * @date 2020/4/28
  * Spring 工具类
  */
 @Slf4j

@@ -48,7 +48,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param userDTO 用户信息
      * @return
      */
-    R<Boolean> updateUser(UserDTO userDTO);
+    Boolean updateUser(UserDTO userDTO);
 
     /**
      * 通过ID查询用户信息
@@ -57,12 +57,6 @@ public interface SysUserService extends IService<SysUser> {
      */
     UserVO getUserVoById(Integer id);
 
-    /**
-     * 查询上级部门的用户信息
-     * @param username 用户名
-     * @return R
-     */
-    List<SysUser> listAncestorUsersByUserName(String username);
 
     /**
      * 保存用户信息
@@ -77,6 +71,6 @@ public interface SysUserService extends IService<SysUser> {
      * @param username
      * @return
      */
-    public List<SysUser> listAncestorUsersByUsername(String username);
+   List<SysUser> listAncestorUsersByUsername(String username);
 
 }

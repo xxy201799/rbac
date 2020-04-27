@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author xxy
- * @date 2019/02/14
+ * @date 2020/04/284
  * <p>
  * 服务间接口不鉴权处理逻辑
  */

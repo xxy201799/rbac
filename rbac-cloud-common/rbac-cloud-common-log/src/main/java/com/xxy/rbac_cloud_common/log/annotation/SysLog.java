@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package com.xxy.rbac_cloud_common.log.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author xxy
+ * @date 2020/4/28
  * 操作日志注解
  */
 @Target(ElementType.METHOD)
