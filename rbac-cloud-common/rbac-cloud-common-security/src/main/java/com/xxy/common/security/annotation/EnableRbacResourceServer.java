@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.lang.annotation.*;
 
 /**
  * @author xxy
- * @date 2019/03/08
+ * @date 2020/03/08
  * <p>
  * 资源服务注解
  */

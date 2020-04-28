@@ -1,28 +1,35 @@
 package com.xxy.rbac_cloud_upms_biz.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xxy.common.core.constants.CacheConstants;
+import com.xxy.common.core.constants.CommonConstants;
 import com.xxy.common.core.util.R;
 import com.xxy.rbac.admin.api.dto.UserDTO;
 import com.xxy.rbac.admin.api.dto.UserInfo;
+import com.xxy.rbac.admin.api.entity.SysDept;
 import com.xxy.rbac.admin.api.entity.SysRole;
 import com.xxy.rbac.admin.api.entity.SysUser;
+import com.xxy.rbac.admin.api.entity.SysUserRole;
 import com.xxy.rbac.admin.api.vo.MenuVO;
 import com.xxy.rbac.admin.api.vo.UserVO;
 import com.xxy.rbac_cloud_upms_biz.mapper.SysUserMapper;
-import com.xxy.rbac_cloud_upms_biz.service.SysMenuService;
-import com.xxy.rbac_cloud_upms_biz.service.SysRoleService;
-import com.xxy.rbac_cloud_upms_biz.service.SysUserService;
+import com.xxy.rbac_cloud_upms_biz.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,9 +40,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
-
-    private final SysRoleService sysRoleService;
     private final SysMenuService sysMenuService;
+    private final SysRoleService sysRoleService;
+    private final SysDeptService sysDeptService;
+    private final SysUserRoleService sysUserRoleService;
+    private final SysDeptRelationService sysDeptRelationService;
     /**
      * 查指定用户的全部信息
      * @param sysUser
@@ -71,38 +80,120 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.getUserVosPage(page, userDTO);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param sysUser 用户
+     * @return Boolean
+     */
     @Override
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#sysUser.username")
     public Boolean removeUserById(SysUser sysUser) {
-        return null;
+        sysUserRoleService.removeRoleByUserId(sysUser.getUserId());
+        this.removeById(sysUser.getUserId());
+        return Boolean.TRUE;
     }
 
+    /**
+     * 修改用户信息，有密码则修改密码
+     * @param userDto
+     * @return
+     */
     @Override
-    public R<Boolean> updateUserInfo(UserDTO userDTO) {
-        return null;
+    @CacheEvict(value =CacheConstants.USER_DETAILS, key = "#userDto.username")
+    public R<Boolean> updateUserInfo(UserDTO userDto) {
+        UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
+        SysUser sysUser = new SysUser();
+        if (StrUtil.isNotBlank(userDto.getPassword())
+                && StrUtil.isNotBlank(userDto.getNewpassword1())) {
+            if (ENCODER.matches(userDto.getPassword(), userVO.getPassword())) {
+                sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+            } else {
+                log.warn("原密码错误，修改密码失败:{}", userDto.getUsername());
+                return R.failed("原密码错误，修改失败");
+            }
+        }
+        sysUser.setPhone(userDto.getPhone());
+        sysUser.setUserId(userVO.getUserId());
+        sysUser.setAvatar(userDto.getAvatar());
+        return R.ok(this.updateById(sysUser));
     }
 
+
     @Override
-    public R<Boolean> updateUser(UserDTO userDTO) {
-        return null;
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
+    public Boolean updateUser(UserDTO userDto) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(userDto, sysUser);
+        sysUser.setUpdateTime(LocalDateTime.now());
+
+        if (StrUtil.isNotBlank(userDto.getPassword())) {
+            sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
+        }
+        this.updateById(sysUser);
+
+        sysUserRoleService.remove(Wrappers.<SysUserRole>update().lambda()
+                .eq(SysUserRole::getUserId, userDto.getUserId()));
+        userDto.getRole().forEach(roleId -> {
+            SysUserRole userRole = new SysUserRole();
+            userRole.setUserId(sysUser.getUserId());
+            userRole.setRoleId(roleId);
+            userRole.insert();
+        });
+        return Boolean.TRUE;
     }
+
 
     @Override
     public UserVO getUserVoById(Integer id) {
-        return null;
+        return baseMapper.getUserVoById(id);
     }
 
-    @Override
-    public List<SysUser> listAncestorUsersByUserName(String username) {
-        return null;
-    }
 
-    @Override
-    public Boolean saveUser(UserDTO userDTO) {
-        return null;
-    }
 
+    /**
+     * 查询上级部门的用户信息
+     *
+     * @param username 用户名
+     * @return R
+     */
     @Override
     public List<SysUser> listAncestorUsersByUsername(String username) {
-        return null;
+        SysUser sysUser = this.getOne(Wrappers.<SysUser>query().lambda()
+                .eq(SysUser::getUsername, username));
+
+        SysDept sysDept = sysDeptService.getById(sysUser.getDeptId());
+        if (sysDept == null) {
+            return null;
+        }
+
+        Integer parentId = sysDept.getParentId();
+        return this.list(Wrappers.<SysUser>query().lambda()
+                .eq(SysUser::getDeptId, parentId));
     }
+
+    /**
+     * 保存用户信息
+     *
+     * @param userDto DTO 对象
+     * @return success/fail
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveUser(UserDTO userDto) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(userDto, sysUser);
+        sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
+        sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
+        baseMapper.insert(sysUser);
+        List<SysUserRole> userRoleList = userDto.getRole()
+                .stream().map(roleId -> {
+                    SysUserRole userRole = new SysUserRole();
+                    userRole.setUserId(sysUser.getUserId());
+                    userRole.setRoleId(roleId);
+                    return userRole;
+                }).collect(Collectors.toList());
+        return sysUserRoleService.saveBatch(userRoleList);
+    }
+
 }

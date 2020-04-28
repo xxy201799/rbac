@@ -120,7 +120,7 @@ class ServiceList extends React.Component {
   /**
    *
    * Added method to open sample code window
-   * @author yongchao9  #2019年05月18日 下午5:46:28
+   * @author yongchao9  #2020年05月18日 下午5:46:28
    *
    */
   showSampleCode(record) {
@@ -286,7 +286,7 @@ class ServiceList extends React.Component {
                   title={operation}
                   align="center"
                   cell={(value, index, record) => (
-                    // @author yongchao9  #2019年05月18日 下午5:46:28
+                    // @author yongchao9  #2020年05月18日 下午5:46:28
                     /* Add a link to view "sample code"
                      replace the original button with a label,
                      which is consistent with the operation style in configuration management.

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author lengleng
+ * @author xxy
  * @date 2017年11月9日23:33:27
  */
 @Data

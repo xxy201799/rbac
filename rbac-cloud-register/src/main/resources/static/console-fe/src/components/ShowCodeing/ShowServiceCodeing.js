@@ -23,7 +23,7 @@ const TabPane = Tab.Item;
 /**
  *
  * Service Registration Sample Code Show Window
- * @author yongchao9  #2019年05月18日 下午4:26:19
+ * @author yongchao9  #2020年05月18日 下午4:26:19
  *
  */
 @ConfigProvider.config
