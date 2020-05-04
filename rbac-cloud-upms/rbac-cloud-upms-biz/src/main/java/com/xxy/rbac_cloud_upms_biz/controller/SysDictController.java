@@ -53,7 +53,7 @@ public class SysDictController {
         return R.ok(dictService.updateDict(dictDTO));
     }
 
-    /**
+    /**+
      * 分页查询字典
      *
      */
