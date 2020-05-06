@@ -18,7 +18,11 @@ package com.xxy.common.core.util;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
@@ -87,6 +91,28 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 			return;
 		}
 		applicationContext.publishEvent(event);
+	}
+
+	public static <T> T registerBean(String name, Class<T> clazz, Object... args){
+		if(applicationContext.containsBean(name)){
+			Object bean = applicationContext.getBean(name);
+			if (bean.getClass().isAssignableFrom(clazz)) {
+				return (T) bean;
+			} else {
+				throw new RuntimeException("BeanName 重复 " + name);
+			}
+
+		}
+		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+		for (Object arg : args) {
+			beanDefinitionBuilder.addConstructorArgValue(arg);
+		}
+		BeanDefinition beanDefinition = beanDefinitionBuilder.getRawBeanDefinition();
+
+		BeanDefinitionRegistry beanFactory = (BeanDefinitionRegistry) applicationContext.getParentBeanFactory();
+		beanFactory.registerBeanDefinition(name, beanDefinition);
+		return applicationContext.getBean(name, clazz);
+
 	}
 
 	/**

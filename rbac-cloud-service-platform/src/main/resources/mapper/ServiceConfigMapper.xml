@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  Copyright (c) 2020-2020, xxy (wangiegie@gmail.com).
+  ~  <p>
+  ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~  <p>
+  ~ https://www.gnu.org/licenses/lgpl.html
+  ~  <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxy.rbac_cloud_service_platform.mapper.ServiceConfigMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xxy.rbac_cloud_service_platform.entity.ServiceConfig">
+		<id column="id" property="id"/>
+		<result column="register_type" property="registerType"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="registerAddress" property="registerAddress"/>
+		<result column="cluster_mode_flag" property="clusterModeFlag"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_id" property="userId"/>
+		<result column="state" property="state"/>
+		<result column="config_address" property="configAddress"/>
+		<result column="password" property="password"/>
+		<result column="project_name" property="projectName"/>
+	</resultMap>
+
+	<!--关联查询部门列表-->
+	<select id="queryServiceConfigByState" resultType="com.xxy.rbac_cloud_service_platform.entity.ServiceConfig">
+		SELECT
+			*
+		FROM
+			service_config
+		WHERE state = #{state}
+	</select>
+
+</mapper>
