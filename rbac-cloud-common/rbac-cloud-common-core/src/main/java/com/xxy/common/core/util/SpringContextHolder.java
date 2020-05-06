@@ -26,6 +26,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -93,27 +94,15 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 		applicationContext.publishEvent(event);
 	}
 
-	public static <T> T registerBean(String name, Class<T> clazz, Object... args){
-		if(applicationContext.containsBean(name)){
-			Object bean = applicationContext.getBean(name);
-			if (bean.getClass().isAssignableFrom(clazz)) {
-				return (T) bean;
-			} else {
-				throw new RuntimeException("BeanName 重复 " + name);
-			}
-
-		}
-		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
-		for (Object arg : args) {
-			beanDefinitionBuilder.addConstructorArgValue(arg);
-		}
-		BeanDefinition beanDefinition = beanDefinitionBuilder.getRawBeanDefinition();
-
-		BeanDefinitionRegistry beanFactory = (BeanDefinitionRegistry) applicationContext.getParentBeanFactory();
-		beanFactory.registerBeanDefinition(name, beanDefinition);
-		return applicationContext.getBean(name, clazz);
-
-	}
+    public static void registerBean(String name, Object instance) {
+        if(applicationContext instanceof ConfigurableApplicationContext) {
+            ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext)getApplicationContext();
+            name = instance.getClass().getName() + "-" + name;
+            if (applicationContext.getBeanFactory().getSingleton(name) == null) {
+                applicationContext.getBeanFactory().registerSingleton(name, instance);
+            }
+        }
+    }
 
 	/**
 	 * 实现DisposableBean接口, 在Context关闭时清理静态变量.
