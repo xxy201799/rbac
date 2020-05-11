@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020-2020, 冷冷 (wangiegie@gmail.com).
+ *  Copyright (c) 2020-2020, xxy (wangiegie@gmail.com).
  *  <p>
  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,7 +52,8 @@ public class SysRole extends Model<SysRole> {
 
 	@NotBlank(message = "角色描述 不能为空")
 	private String roleDesc;
-
+ 	private Integer dsType;
+ 	private String dsScope;
 	private LocalDateTime createTime;
 	private LocalDateTime updateTime;
 	/**

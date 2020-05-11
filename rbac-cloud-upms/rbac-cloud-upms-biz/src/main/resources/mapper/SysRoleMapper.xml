@@ -12,6 +12,8 @@
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>
+		<result column="ds_type" property="dsType"/>
+		<result column="ds_scope" property="dsScope"/>
 	</resultMap>
 
 	<!-- 通过用户ID，查询角色信息-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+  ~  Copyright (c) 2019-2020, xxy (wangiegie@gmail.com).
   ~  <p>
   ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
   ~  you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.pig4cloud.pig.admin.mapper.SysLogMapper">
+<mapper namespace="com.xxy.rbac_cloud_upms_biz.mapper.SysLogMapper">
 
-	<resultMap id="sysLogMap" type="com.pig4cloud.pig.admin.api.entity.SysLog">
+	<resultMap id="sysLogMap" type="com.xxy.rbac.admin.api.entity.SysLog">
 		<id property="id" column="id"/>
 		<result property="type" column="type"/>
 		<result property="title" column="title"/>
