@@ -16,22 +16,22 @@
 package com.xxy.rbac_cloud_service_platform.datasource.entity;
 
 
-import com.xxy.rbac_cloud_service_platform.discovery.AppInfo;
+import com.xxy.rbac_cloud_service_platform.discovery.MachineInfo;
 
 import java.util.Date;
 
 /**
  * @author leyou
  */
-public class ApplicationEntity {
-
+public class MachineEntity {
     private Long id;
     private Date gmtCreate;
-        private Date gmtModified;
-        private String app;
-    private Integer appType;
-    private String activeConsole;
-    private Date lastFetch;
+    private Date gmtModified;
+    private String app;
+    private String ip;
+    private String hostname;
+    private Date timestamp;
+    private Integer port;
 
     public long getId() {
         return id;
@@ -65,43 +65,62 @@ public class ApplicationEntity {
         this.app = app;
     }
 
-    public Integer getAppType() {
-        return appType;
+    public String getIp() {
+        return ip;
     }
 
-    public void setAppType(Integer appType) {
-        this.appType = appType;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public String getActiveConsole() {
-        return activeConsole;
+    public String getHostname() {
+        return hostname;
     }
 
-    public Date getLastFetch() {
-        return lastFetch;
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
-    public void setLastFetch(Date lastFetch) {
-        this.lastFetch = lastFetch;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setActiveConsole(String activeConsole) {
-        this.activeConsole = activeConsole;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public AppInfo toAppInfo() {
-        return new AppInfo(app, appType);
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public MachineInfo toMachineInfo() {
+        MachineInfo machineInfo = new MachineInfo();
+
+        machineInfo.setApp(app);
+        machineInfo.setHostname(hostname);
+        machineInfo.setIp(ip);
+        machineInfo.setPort(port);
+        machineInfo.setLastHeartbeat(timestamp.getTime());
+        machineInfo.setHeartbeatVersion(timestamp.getTime());
+
+        return machineInfo;
     }
 
     @Override
     public String toString() {
-        return "ApplicationEntity{" +
+        return "MachineEntity{" +
             "id=" + id +
             ", gmtCreate=" + gmtCreate +
             ", gmtModified=" + gmtModified +
             ", app='" + app + '\'' +
-            ", activeConsole='" + activeConsole + '\'' +
-            ", lastFetch=" + lastFetch +
+            ", ip='" + ip + '\'' +
+            ", hostname='" + hostname + '\'' +
+            ", timestamp=" + timestamp +
+            ", port=" + port +
             '}';
     }
 }

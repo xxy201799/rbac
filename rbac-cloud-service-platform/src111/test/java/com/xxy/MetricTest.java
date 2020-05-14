@@ -22,8 +22,6 @@ public class MetricTest {
     @Qualifier("jpaMetricsRepository")
     @Autowired
     private MetricsRepository<MetricEntity> metricStore;
-
-
     @Test
     public void testSaveMertic(){
         MetricEntity entity = new MetricEntity();

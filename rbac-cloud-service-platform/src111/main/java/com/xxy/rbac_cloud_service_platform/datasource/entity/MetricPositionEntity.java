@@ -15,22 +15,30 @@
  */
 package com.xxy.rbac_cloud_service_platform.datasource.entity;
 
-
-import com.xxy.rbac_cloud_service_platform.discovery.AppInfo;
-
 import java.util.Date;
 
 /**
  * @author leyou
  */
-public class ApplicationEntity {
-
-    private Long id;
+public class MetricPositionEntity {
+    private long id;
     private Date gmtCreate;
-        private Date gmtModified;
-        private String app;
-    private Integer appType;
-    private String activeConsole;
+    private Date gmtModified;
+    private String app;
+    private String ip;
+    /**
+     * Sentinel在该应用上使用的端口
+     */
+    private int port;
+
+    /**
+     * 机器名，冗余字段
+     */
+    private String hostname;
+
+    /**
+     * 上一次拉取的最晚时间戳
+     */
     private Date lastFetch;
 
     public long getId() {
@@ -65,16 +73,28 @@ public class ApplicationEntity {
         this.app = app;
     }
 
-    public Integer getAppType() {
-        return appType;
+    public String getIp() {
+        return ip;
     }
 
-    public void setAppType(Integer appType) {
-        this.appType = appType;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public String getActiveConsole() {
-        return activeConsole;
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
     public Date getLastFetch() {
@@ -85,22 +105,16 @@ public class ApplicationEntity {
         this.lastFetch = lastFetch;
     }
 
-    public void setActiveConsole(String activeConsole) {
-        this.activeConsole = activeConsole;
-    }
-
-    public AppInfo toAppInfo() {
-        return new AppInfo(app, appType);
-    }
-
     @Override
     public String toString() {
-        return "ApplicationEntity{" +
+        return "MetricPositionEntity{" +
             "id=" + id +
             ", gmtCreate=" + gmtCreate +
             ", gmtModified=" + gmtModified +
             ", app='" + app + '\'' +
-            ", activeConsole='" + activeConsole + '\'' +
+            ", ip='" + ip + '\'' +
+            ", port=" + port +
+            ", hostname='" + hostname + '\'' +
             ", lastFetch=" + lastFetch +
             '}';
     }

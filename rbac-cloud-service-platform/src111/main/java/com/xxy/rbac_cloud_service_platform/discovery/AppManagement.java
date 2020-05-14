@@ -16,7 +16,6 @@
 package com.xxy.rbac_cloud_service_platform.discovery;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,7 @@ public class AppManagement implements MachineDiscovery {
 
     @Autowired
     private ApplicationContext context;
-    @Qualifier("rbacMachineDiscovery")
+
     private MachineDiscovery machineDiscovery;
 
     @PostConstruct
@@ -46,7 +45,7 @@ public class AppManagement implements MachineDiscovery {
     public long addMachine(MachineInfo machineInfo) {
         return machineDiscovery.addMachine(machineInfo);
     }
-
+    
     @Override
     public boolean removeMachine(String app, String ip, int port) {
         return machineDiscovery.removeMachine(app, ip, port);
@@ -61,7 +60,7 @@ public class AppManagement implements MachineDiscovery {
     public AppInfo getDetailApp(String app) {
         return machineDiscovery.getDetailApp(app);
     }
-
+    
     @Override
     public void removeApp(String app) {
         machineDiscovery.removeApp(app);

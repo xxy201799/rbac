@@ -27,8 +27,8 @@ public class ApplicationEntity {
 
     private Long id;
     private Date gmtCreate;
-        private Date gmtModified;
-        private String app;
+    private Date gmtModified;
+    private String app;
     private Integer appType;
     private String activeConsole;
     private Date lastFetch;
