@@ -37,6 +37,7 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity> implements
     @Override
     public T save(T entity) {
         if (entity.getId() == null) {
+            System.out.println(1);
             entity.setId(nextId());
         }
         T processedEntity = preProcess(entity);
