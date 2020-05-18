@@ -16,12 +16,18 @@
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
 import com.alibaba.csp.sentinel.slots.block.flow.ClusterFlowConfig;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
+import com.xxy.common.core.util.SpringUtil;
+import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceFlowRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.FlowRuleEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -30,16 +36,28 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author leyou
  */
 @Component
-public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity> {
-
-    private static AtomicLong ids = new AtomicLong(0);
+public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity,ServiceFlowRule> {
     @PersistenceContext
     private EntityManager em;
+    String Table_NAME="ServiceFlowRule";
+
+
+
 
 
     @Override
-    protected void putRule(FlowRuleEntity processedEntity) {
+    protected ServiceFlowRule getEmptyModel() {
+        return  new ServiceFlowRule();
+    }
 
+    @Override
+    protected String getTableName() {
+        return this.Table_NAME;
+    }
+
+    @Override
+    protected FlowRuleEntity getEntity() {
+        return new FlowRuleEntity();
     }
 
     @Override
@@ -56,12 +74,5 @@ public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity
         return entity;
     }
 
-    @Override
-    protected long nextId() {
-        StringBuilder builder=new StringBuilder();
-        builder.append("select id from service_flow_rule order by id DESC limit 1");
-        Query query= em.createQuery(builder.toString());
-        Integer id= (Integer) query.getSingleResult();
-        return ++id;
-    }
+
 }

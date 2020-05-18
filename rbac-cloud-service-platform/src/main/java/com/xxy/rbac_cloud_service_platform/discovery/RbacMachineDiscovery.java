@@ -58,7 +58,7 @@ public class RbacMachineDiscovery implements MachineDiscovery {
         //找出唯一APP
         AssertUtil.assertNotBlank(app, "app name cannot be blank");
         StringBuilder hql = new StringBuilder();
-        hql.append("select app,appType  from ServiceApp  ");
+        hql.append(" from ServiceApp  ");
         hql.append(" WHERE app=:app");
         Query query = em.createQuery(hql.toString());
         query.setParameter("app", app);

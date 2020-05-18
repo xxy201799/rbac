@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * @author leyou
  */
-public class FlowRuleEntity implements RuleEntity {
+public class    FlowRuleEntity implements RuleEntity {
 
     private Long id;
     private String app;

@@ -15,6 +15,8 @@
  */
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
+import com.xxy.common.core.util.SpringUtil;
+import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceDegradeRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.DegradeRuleEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,23 +29,36 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author leyou
  */
 @Component
-public class InMemDegradeRuleStore extends RdbcRuleRepositoryAdapter<DegradeRuleEntity> {
+public class InMemDegradeRuleStore extends RdbcRuleRepositoryAdapter<DegradeRuleEntity,ServiceDegradeRule> {
 
     private static AtomicLong ids = new AtomicLong(0);
     @PersistenceContext
     private EntityManager em;
+    String Table_NAME="service_degrade_rule";
+
+
 
     @Override
-    protected void putRule(DegradeRuleEntity processedEntity) {
-
+    protected ServiceDegradeRule getModel(Long id) {
+        ServiceDegradeRule serviceDegradeRule = new ServiceDegradeRule();
+        serviceDegradeRule.setId(id);
+        return serviceDegradeRule;
     }
 
     @Override
-    protected long nextId() {
-        StringBuilder builder=new StringBuilder();
-        builder.append("select id from service_degrade_rule order by id DESC limit 1");
-        Query query= em.createQuery(builder.toString());
-        Integer id= (Integer) query.getSingleResult();
-        return ++id;
+    protected ServiceDegradeRule getEmptyModel() {
+        return  new ServiceDegradeRule();
     }
+
+    @Override
+    protected String getTableName() {
+        return this.Table_NAME;
+    }
+
+    @Override
+    protected DegradeRuleEntity getEntity() {
+        return new DegradeRuleEntity();
+    }
+
+
 }

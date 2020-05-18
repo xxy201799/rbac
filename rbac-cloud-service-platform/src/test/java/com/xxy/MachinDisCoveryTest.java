@@ -25,7 +25,7 @@ public class MachinDisCoveryTest {
     @Test
     public void testSaveMertic(){
 
-        List<String>  list=machineDiscovery.getAppNames();
+        AppInfo appInfo=machineDiscovery.getDetailApp("112");
         System.out.println(1);
     }
 }

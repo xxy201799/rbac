@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxy.rbac_cloud_service_platform.datasource.entity.rule;
+package com.xxy.rbac_cloud_service_platform.database.entity.rule;
 
 import com.alibaba.csp.sentinel.slots.block.AbstractRule;
+import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.RuleEntity;
 
 import java.util.Date;
 

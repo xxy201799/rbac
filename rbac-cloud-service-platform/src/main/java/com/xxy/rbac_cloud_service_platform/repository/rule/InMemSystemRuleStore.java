@@ -15,6 +15,7 @@
  */
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
+import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceSystemRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.SystemRuleEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,23 +28,34 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author leyou
  */
 @Component
-public class InMemSystemRuleStore extends RdbcRuleRepositoryAdapter<SystemRuleEntity> {
+public class InMemSystemRuleStore extends RdbcRuleRepositoryAdapter<SystemRuleEntity, ServiceSystemRule> {
 
     private static AtomicLong ids = new AtomicLong(0);
     @PersistenceContext
     private EntityManager em;
-
+    String Table_NAME="service_system_rule";
     @Override
     protected void putRule(SystemRuleEntity processedEntity) {
 
     }
 
     @Override
-    protected long nextId() {
-        StringBuilder builder=new StringBuilder();
-        builder.append("select id from service_system_rule order by id DESC limit 1");
-        Query query= em.createQuery(builder.toString());
-        Integer id= (Integer) query.getSingleResult();
-        return ++id;
+    protected ServiceSystemRule getEmptyModel() {
+        return  new ServiceSystemRule();
     }
+
+
+
+
+    @Override
+    protected String getTableName() {
+        return this.Table_NAME;
+    }
+
+    @Override
+    protected SystemRuleEntity getEntity() {
+        return new SystemRuleEntity();
+    }
+
+
 }
