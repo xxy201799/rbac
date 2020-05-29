@@ -21,6 +21,7 @@ import com.google.common.base.CaseFormat;
 import com.xxy.common.core.util.SpringUtil;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.RuleEntity;
 import com.xxy.rbac_cloud_service_platform.discovery.MachineInfo;
+import net.bytebuddy.asm.Advice;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 
 /**
  * @author leyou
@@ -66,7 +69,7 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity, M extends 
 
     protected  M getModel(Long id){
         StringBuilder hql=new StringBuilder();
-        hql.append("from "+getTableName());
+        hql.append("from "+getEntityName());
         hql.append(" where id=:id");
         Query query=em.createQuery(hql.toString());
         query.setParameter("id", id);
@@ -83,9 +86,8 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity, M extends 
     ;
 
     protected void clear() {
-        String table = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getTableName());
+        String table = getEntityName();
         Query query = em.createNativeQuery("truncate table "+table);
-        int rows = query.executeUpdate();
         return;
     }
 
@@ -107,26 +109,13 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity, M extends 
         return entity;
     }
 
-    protected abstract String getTableName();
+    public  abstract   String getTableName(
+    );
 
-    ;
 
-    protected Map<Long, T> getByMachine(MachineInfo machineInfo) {
-        StringBuilder hql = new StringBuilder();
-        hql.append("select * from :Table_NAME ");
-        hql.append(" WHERE app=:app");
-        hql.append(" AND ip=:ip ");
-        hql.append(" AND port=:port ");
-        Query query = em.createQuery(hql.toString());
-        query.setParameter("app", machineInfo.getApp());
-        query.setParameter("ip", machineInfo.getIp());
-        query.setParameter("port", machineInfo.getPort());
-        query.setParameter("Table_NAME", getTableName());
-        List<M> authorityRules = query.getResultList();
-        return getRealEntitys(authorityRules);
-    }
 
-    ;
+
+
 
     private Map<Long, T> getRealEntitys(List<M> authorityRules) {
         Map<Long, T> realRules = new ConcurrentHashMap<>(16);
@@ -139,10 +128,23 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity, M extends 
     }
 
     protected abstract T getEntity();
+    protected Map<Long, T> getByMachine(MachineInfo machineInfo) {
+        StringBuilder hql = new StringBuilder();
+        hql.append(" from "+getEntityName());
+        hql.append(" WHERE app=:app");
+        hql.append(" AND ip=:ip ");
+        hql.append(" AND port=:port ");
+        Query query = em.createQuery(hql.toString());
+        query.setParameter("app", machineInfo.getApp());
+        query.setParameter("ip", machineInfo.getIp());
+        query.setParameter("port", machineInfo.getPort());
+        List<M> rules = query.getResultList();
+        return getRealEntitys(rules);
+    }
 
     protected Map<Long, T> getByApp(String appName) {
         StringBuilder hql = new StringBuilder();
-        hql.append(" from " + getTableName());
+        hql.append(" from " + getEntityName());
         hql.append(" WHERE app=:appName");
         Query query = em.createQuery(hql.toString());
         query.setParameter("appName", appName);
@@ -212,16 +214,18 @@ public abstract class RdbcRuleRepositoryAdapter<T extends RuleEntity, M extends 
      */
      protected long nextId() {
          StringBuilder builder=new StringBuilder();
-         String table = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getTableName());
-         builder.append("select  id from "+ table +" order by id DESC limit 1 ");
+         builder.append("select  id from "+ getTableName() +" order by id DESC limit 1 ");
          Query query= em.createNativeQuery(builder.toString());
          try {
-             Long id= (Long) query.getSingleResult();
+             Long id=  Long.valueOf(query.getSingleResult().toString());
              return ++id;
          }
          catch (NoResultException e){
              clearAll();
              return 1;
          }
-     };
+     }
+
+    public abstract String getEntityName()
+    ;
 }

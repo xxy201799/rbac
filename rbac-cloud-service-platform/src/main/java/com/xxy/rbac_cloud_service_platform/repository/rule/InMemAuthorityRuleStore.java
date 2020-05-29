@@ -15,24 +15,9 @@
  */
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.xxy.common.core.util.SpringUtil;
-import com.xxy.rbac_cloud_service_platform.database.entity.ServiceMachineInfo;
 import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceAuthorityRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.AuthorityRuleEntity;
-import com.xxy.rbac_cloud_service_platform.discovery.MachineInfo;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * In-memory storage for authority rules.
@@ -43,14 +28,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class InMemAuthorityRuleStore extends RdbcRuleRepositoryAdapter<AuthorityRuleEntity,ServiceAuthorityRule> {
 
-    private static AtomicLong ids = new AtomicLong(0);
-    @PersistenceContext
-    private EntityManager em;
-    String Table_NAME="ServiceAuthorityRule";
-    @Override
-    public AuthorityRuleEntity save(AuthorityRuleEntity entity) {
-        return super.save(entity);
-    }
+    String Entity_NAME ="ServiceAuthorityRule";
+    String table_NAME ="service_authority_rule";
+
 
 
     @Override
@@ -66,13 +46,18 @@ public class InMemAuthorityRuleStore extends RdbcRuleRepositoryAdapter<Authority
     }
 
     @Override
-    protected String getTableName() {
-        return this.Table_NAME;
+    public String getTableName() {
+        return this.table_NAME;
     }
 
     @Override
     protected AuthorityRuleEntity getEntity() {
         return new AuthorityRuleEntity();
+    }
+
+    @Override
+    public String getEntityName() {
+        return this.Entity_NAME;
     }
 
 

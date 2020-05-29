@@ -16,19 +16,9 @@
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
 import com.alibaba.csp.sentinel.slots.block.flow.ClusterFlowConfig;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
-import com.xxy.common.core.util.SpringUtil;
 import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceFlowRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.FlowRuleEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Store {@link FlowRuleEntity} in memory.
@@ -37,10 +27,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Component
 public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity,ServiceFlowRule> {
-    @PersistenceContext
-    private EntityManager em;
-    String Table_NAME="ServiceFlowRule";
 
+    String Entity_NAME ="ServiceFlowRule";
+    String Table_NAME ="service_flow_rule";
 
 
 
@@ -51,7 +40,7 @@ public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity
     }
 
     @Override
-    protected String getTableName() {
+    public String getTableName() {
         return this.Table_NAME;
     }
 
@@ -72,6 +61,11 @@ public class InMemFlowRuleStore extends RdbcRuleRepositoryAdapter<FlowRuleEntity
             config.setFlowId(entity.getId());
         }
         return entity;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Entity_NAME;
     }
 
 

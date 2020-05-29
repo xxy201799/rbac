@@ -2,8 +2,11 @@ package com.xxy;
 
 import com.xxy.rbac_cloud_service_platform.RbacCloudServiceApplication;
 import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceFlowRule;
+import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceSystemRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.MetricEntity;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.FlowRuleEntity;
+import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.SystemRuleEntity;
+import com.xxy.rbac_cloud_service_platform.discovery.MachineInfo;
 import com.xxy.rbac_cloud_service_platform.repository.rule.RdbcRuleRepositoryAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +26,8 @@ import java.util.List;
 public class RuleTest {
     @Autowired
     private RdbcRuleRepositoryAdapter<FlowRuleEntity, ServiceFlowRule> repository;
+    @Autowired
+    private RdbcRuleRepositoryAdapter<SystemRuleEntity, ServiceSystemRule> systemRepository;
     @PersistenceContext
     private EntityManager em;
     @Test
@@ -39,11 +44,21 @@ public class RuleTest {
         flowRuleEntity.setApp("222222222222");
         flowRuleEntity.setIp("33333333333");
 
-      //  repository.delete(Long.valueOf(1));
-      //  repository.save(flowRuleEntity);
+        repository.delete(Long.valueOf(1));
+        repository.save(flowRuleEntity);
     List<FlowRuleEntity> flowRuleEntities= repository.findAllByApp("222222222222");
         System.out.println(1);
 
+    }
+    @Test
+    public void testGetAllByMachine(){
+        MachineInfo machineInfo=new MachineInfo();
+        machineInfo.setApp("1");
+        machineInfo.setIp("1");
+        machineInfo.setPort(1);
+      List<SystemRuleEntity>  systemRuleEntities= systemRepository.findAllByMachine(machineInfo);
+      systemRepository.findById(Long.valueOf(1));
+      System.out.println(1);
     }
 
 }

@@ -15,15 +15,9 @@
  */
 package com.xxy.rbac_cloud_service_platform.repository.rule;
 
-import com.xxy.common.core.util.SpringUtil;
 import com.xxy.rbac_cloud_service_platform.database.entity.rule.ServiceDegradeRule;
 import com.xxy.rbac_cloud_service_platform.datasource.entity.rule.DegradeRuleEntity;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author leyou
@@ -31,11 +25,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class InMemDegradeRuleStore extends RdbcRuleRepositoryAdapter<DegradeRuleEntity,ServiceDegradeRule> {
 
-    private static AtomicLong ids = new AtomicLong(0);
-    @PersistenceContext
-    private EntityManager em;
-    String Table_NAME="service_degrade_rule";
-
+    String Entity_NAME ="ServiceDegradeRule";
+    String Table_NAME ="service_degrade_rule";
 
 
     @Override
@@ -51,13 +42,18 @@ public class InMemDegradeRuleStore extends RdbcRuleRepositoryAdapter<DegradeRule
     }
 
     @Override
-    protected String getTableName() {
+    public String getTableName() {
         return this.Table_NAME;
     }
 
     @Override
     protected DegradeRuleEntity getEntity() {
         return new DegradeRuleEntity();
+    }
+
+    @Override
+    public String getEntityName() {
+        return Entity_NAME;
     }
 
 
